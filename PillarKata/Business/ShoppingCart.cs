@@ -17,7 +17,7 @@ namespace Business
             return this;
         }
 
-        public double Add(string item, int weight)
+        public ShoppingCart Add(string item, int weight)
         {
             var price = 0.0;
             if(item == "Ground Beef")
@@ -29,7 +29,8 @@ namespace Business
                 price = 2.38;
             }
 
-            return price * weight;
+            Total += price * weight;
+            return this;
         }
     }
 }
