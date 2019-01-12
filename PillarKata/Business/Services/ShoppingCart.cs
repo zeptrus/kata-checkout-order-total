@@ -71,7 +71,6 @@ namespace Business.Services
             if ((itemsCurrentlyInCart + 1) % sales.AmountNeedForSale == 0)
                 salePrice = sales.SalePrice;
 
-            //?.SalePrice ?? 0;
             return (price - salePrice);
         }
     }
