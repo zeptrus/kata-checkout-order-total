@@ -51,6 +51,9 @@ namespace Business.Services
             if (foundItem != null)
                 throw new InvalidInputException("Only one sale can be given at one given time");
 
+            if (saleItem.AmountNeedForSale == 0)
+                saleItem.AmountNeedForSale = 1;
+
             _sales.Add(saleItem);
         }
 
@@ -63,12 +66,9 @@ namespace Business.Services
             if (sales == null)
                 return price;
 
-            if (sales.AmountNeedToSale == 0)
-                sales.AmountNeedToSale = 1;
-
             var salePrice = 0.0;
 
-            if ((itemsCurrentlyInCart + 1) % sales.AmountNeedToSale == 0)
+            if ((itemsCurrentlyInCart + 1) % sales.AmountNeedForSale == 0)
                 salePrice = sales.SalePrice;
 
             //?.SalePrice ?? 0;
