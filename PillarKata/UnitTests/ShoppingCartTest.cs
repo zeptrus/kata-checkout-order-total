@@ -189,5 +189,20 @@ namespace UnitTests
             //Assert
             Assert.AreEqual(expectedResult, total, 0.01);
         }
+
+        [Test]
+        public void Remove_RemoveSoupFrom2Soup_PriceOf1Soup()
+        {
+            //Arrange
+
+            //Act
+            var total = _sut.Add("Soup")
+                            .Add("Soup")
+                            .Remove("Soup")
+                            .Total;
+
+            //Assert
+            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price, total);
+        }
     }
 }

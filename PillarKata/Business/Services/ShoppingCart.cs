@@ -33,14 +33,24 @@ namespace Business.Services
 
         public ShoppingCart Add(string itemName, int amount)
         {
-            var item = _storeItems.First(x => x.Name == itemName);
+            var item = _storeItems.First(x => x.Name == itemName).Clone() as StoreItemDTO;
 
             if (amount != 1 && item.Type == ItemTypeEnum.ByItem)
                 throw new InvalidInputException("Item given must only be given 1 at a time.");
 
-            Total += FindPrice(item) * amount;
+            item.Amount = amount;
+            Total += FindPrice(item);
 
             _itemsScanned.Add(item);
+
+            return this;
+        }
+
+        public ShoppingCart Remove(string itemName)
+        {
+            var item = _itemsScanned.Where(x => x.Name == itemName).FirstOrDefault();
+            _itemsScanned.Remove(item);
+            RecalculateTotal();
 
             return this;
         }
@@ -57,6 +67,15 @@ namespace Business.Services
             _sales.Add(saleItem);
         }
 
+        private void RecalculateTotal()
+        {
+            Total = 0;
+            foreach (var item in _itemsScanned)
+            {
+                Total += FindPrice(item);
+            }
+        }
+
         private double FindPrice(StoreItemDTO item)
         {
             var price = item.Price;
@@ -64,14 +83,14 @@ namespace Business.Services
             var sales = _sales.FirstOrDefault(x => x.Name == item.Name);
 
             if (sales == null)
-                return price;
+                return price * item.Amount;
 
             var salePrice = 0.0;
 
             if (itemsCurrentlyInCart % sales.AmountNeedForSale == 0 && (sales.Limit == 0 || sales.Limit <= itemsCurrentlyInCart))
                 salePrice = sales.SalePrice;
 
-            return (price - salePrice);
+            return (price - salePrice) * item.Amount;
         }
     }
 }
