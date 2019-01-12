@@ -151,6 +151,7 @@ namespace UnitTests
 
             //Act
             var total = _sut.Add(SOUP)
+                            .Add(SOUP)
                             .Total;
 
             //Assert
