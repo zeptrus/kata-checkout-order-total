@@ -5,5 +5,6 @@
         public string Name { get; set; }
         public double SalePrice { get; set; }
         public int AmountNeedForSale { get; set; }
+        public int Limit { get; set; }
     }
 }

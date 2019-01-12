@@ -60,7 +60,7 @@ namespace Business.Services
         private double FindPrice(StoreItemDTO item)
         {
             var price = item.Price;
-            var itemsCurrentlyInCart = _itemsScanned.Where(x => x.Name == item.Name).Count();
+            var itemsCurrentlyInCart = _itemsScanned.Where(x => x.Name == item.Name).Count() + 1;
             var sales = _sales.FirstOrDefault(x => x.Name == item.Name);
 
             if (sales == null)
@@ -68,7 +68,7 @@ namespace Business.Services
 
             var salePrice = 0.0;
 
-            if ((itemsCurrentlyInCart + 1) % sales.AmountNeedForSale == 0)
+            if (itemsCurrentlyInCart % sales.AmountNeedForSale == 0 && (sales.Limit == 0 || sales.Limit <= itemsCurrentlyInCart))
                 salePrice = sales.SalePrice;
 
             return (price - salePrice);
