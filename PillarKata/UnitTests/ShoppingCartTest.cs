@@ -27,7 +27,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void AddItem_AddingSoupWithNoSales_NormalSoupPrice()
+        public void Add_AddingSoupWithNoSales_NormalSoupPrice()
         {
             //Arrange
 
@@ -39,7 +39,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void AddItem_AddingGroundBeefWithNoSalesAt1lb_NormalBeefPrice()
+        public void Add_AddingGroundBeefWithNoSalesAt1lb_NormalBeefPrice()
         {
             //Arrange
 
@@ -51,7 +51,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void AddItem_AddingBananasWithNoSalesAt1lb_Normal1lbBananaPrice()
+        public void Add_AddingBananasWithNoSalesAt1lb_Normal1lbBananaPrice()
         {
             //Arrange
 
@@ -63,7 +63,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void AddItem_AddingBananasWithNoSalesAt2lb_Normal2lbBananaPrice()
+        public void Add_AddingBananasWithNoSalesAt2lb_Normal2lbBananaPrice()
         {
             //Arrange
 
@@ -75,7 +75,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void AddItem_Adding2SoupWithNoSales_NormalPriceFor2Soup()
+        public void Add_Adding2SoupWithNoSales_NormalPriceFor2Soup()
         {
             //Arrange
 
@@ -89,7 +89,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void AddItem_AddingSoupAnd2lbBananasWithNoSales_NormalPriceForSoupAndBanana()
+        public void Add_AddingSoupAnd2lbBananasWithNoSales_NormalPriceForSoupAndBanana()
         {
             //Arrange
 
@@ -104,7 +104,7 @@ namespace UnitTests
 
 
         [Test]
-        public void AddItem_Adding2lbSoup_InvalidInputThrown()
+        public void Add_Adding2lbSoup_InvalidInputThrown()
         {
             //Arrange
 
@@ -115,7 +115,7 @@ namespace UnitTests
         }
                
         [Test]
-        public void AddItem_AddingSoupOnSale_SoupSoldAtReducedPrice()
+        public void Add_AddingSoupOnSale_SoupSoldAtReducedPrice()
         {
             //Arrange
             _sut.AddSale(new SaleDTO() { Name = "Soup", SalePrice = .20 });
@@ -129,7 +129,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void AddItem_AddingBananasWithoutAWeight_InvalidInputThrown()
+        public void Add_AddingBananasWithoutAWeight_InvalidInputThrown()
         {
             //Arrange
 
