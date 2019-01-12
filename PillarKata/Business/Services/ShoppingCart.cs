@@ -22,6 +22,10 @@ namespace Business.Services
         
         public ShoppingCart Add(string itemName)
         {
+            var itemType = _storeItems.First(x => x.Name == itemName).Type;
+            if (itemType == ItemTypeEnum.ByWeight)
+                throw new InvalidInputException("Item given must have a weight provided.");
+
             return Add(itemName, 1);
         }
 

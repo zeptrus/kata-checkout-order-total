@@ -104,7 +104,7 @@ namespace UnitTests
 
 
         [Test]
-        public void AddItem_Adding2lbSoup_InvalidSoupIsByItem()
+        public void AddItem_Adding2lbSoup_InvalidInputThrown()
         {
             //Arrange
 
@@ -126,6 +126,17 @@ namespace UnitTests
 
             //Assert
             Assert.AreEqual(total, _storeItems.First(x => x.Name == "Soup").Price - .2);
+        }
+
+        [Test]
+        public void AddItem_AddingBananasWithoutAWeight_InvalidInputThrown()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<InvalidInputException>(() => _sut.Add("Bananas"), "Item given must have a weight provided.");
         }
     }
 }
