@@ -207,7 +207,7 @@ namespace UnitTests
 
 
         [Test]
-        public void Remove_Adding2AndHalfBannanas_PriceOf2AndHalfBananas()
+        public void Add_Adding2AndHalfBannanas_PriceOf2AndHalfBananas()
         {
             //Arrange
 
