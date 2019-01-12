@@ -12,15 +12,18 @@ namespace UnitTests
     {
         private ShoppingCart _sut;
         private List<StoreItemDTO> _storeItems;
+        private const string SOUP = "Soup";//incase soup gets renamed to "Noodle soup or something"
+        private const string BANANAS = "Bananas";
+        private const string BEEF = "Ground Beef";
 
         [SetUp]
         public void Init()
         {
             _storeItems = new List<StoreItemDTO>()
             {
-                new StoreItemDTO() { Name = "Soup", Price = 1.89, Type = ItemTypeEnum.ByItem }
-                , new StoreItemDTO() { Name = "Ground Beef", Price = 5.99, Type = ItemTypeEnum.ByWeight }
-                , new StoreItemDTO() { Name = "Bananas", Price = 2.38, Type = ItemTypeEnum.ByWeight }
+                new StoreItemDTO() { Name = SOUP, Price = 1.89, Type = ItemTypeEnum.ByItem }
+                , new StoreItemDTO() { Name = BEEF, Price = 5.99, Type = ItemTypeEnum.ByWeight }
+                , new StoreItemDTO() { Name = BANANAS, Price = 2.38, Type = ItemTypeEnum.ByWeight }
             };
 
             _sut = new ShoppingCart(_storeItems);
@@ -32,10 +35,10 @@ namespace UnitTests
             //Arrange
 
             //Act
-            var total = _sut.Add("Soup").Total;
+            var total = _sut.Add(SOUP).Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price, total);
         }
 
         [Test]
@@ -44,10 +47,10 @@ namespace UnitTests
             //Arrange
 
             //Act
-            var total = _sut.Add("Ground Beef", 1).Total;
+            var total = _sut.Add(BEEF, 1).Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Ground Beef").Price, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == BEEF).Price, total);
         }
 
         [Test]
@@ -56,10 +59,10 @@ namespace UnitTests
             //Arrange
 
             //Act
-            var total = _sut.Add("Bananas", 1).Total;
+            var total = _sut.Add(BANANAS, 1).Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Bananas").Price, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == BANANAS).Price, total);
         }
 
         [Test]
@@ -68,10 +71,10 @@ namespace UnitTests
             //Arrange
 
             //Act
-            var total = _sut.Add("Bananas", 2).Total;
+            var total = _sut.Add(BANANAS, 2).Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Bananas").Price * 2, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == BANANAS).Price * 2, total);
         }
 
         [Test]
@@ -80,12 +83,12 @@ namespace UnitTests
             //Arrange
 
             //Act
-            var total = _sut.Add("Soup")
-                            .Add("Soup")
+            var total = _sut.Add(SOUP)
+                            .Add(SOUP)
                             .Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price * 2, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price * 2, total);
         }
 
         [Test]
@@ -94,12 +97,12 @@ namespace UnitTests
             //Arrange
 
             //Act
-            var total = _sut.Add("Soup")
-                            .Add("Bananas", 1)
+            var total = _sut.Add(SOUP)
+                            .Add(BANANAS, 1)
                             .Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price + _storeItems.First(x => x.Name == "Bananas").Price, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price + _storeItems.First(x => x.Name == BANANAS).Price, total);
         }
 
 
@@ -111,21 +114,21 @@ namespace UnitTests
             //Act
 
             //Assert
-            Assert.Throws<InvalidInputException>(() => _sut.Add("Soup", 2), "Item given must only be given 1 at a time.");
+            Assert.Throws<InvalidInputException>(() => _sut.Add(SOUP, 2), "Item given must only be given 1 at a time.");
         }
                
         [Test]
         public void Add_AddingSoupOnSale_SoupSoldAtReducedPrice()
         {
             //Arrange
-            _sut.AddSale(new SaleDTO() { Name = "Soup", Price = .20 });
+            _sut.AddSale(new SaleDTO() { Name = SOUP, Price = .20 });
 
             //Act
-            var total = _sut.Add("Soup")
+            var total = _sut.Add(SOUP)
                             .Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price - .2, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price - .2, total);
         }
 
         [Test]
@@ -136,7 +139,7 @@ namespace UnitTests
             //Act
 
             //Assert
-            Assert.Throws<InvalidInputException>(() => _sut.Add("Bananas"), "Item given must have a weight provided.");
+            Assert.Throws<InvalidInputException>(() => _sut.Add(BANANAS), "Item given must have a weight provided.");
         }
 
 
@@ -144,26 +147,26 @@ namespace UnitTests
         public void Add_Buy1SoupGet1SoupFree_2SoupForThePriceOf1()
         {
             //Arrange
-            _sut.AddSale(new SaleDTO() { Name = "Soup", AmountNeeded = 2, Price = 1.89 }); //Buy 1 get 1 free
+            _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 2, Price = 1.89 }); //Buy 1 get 1 free
 
             //Act
-            var total = _sut.Add("Soup")
+            var total = _sut.Add(SOUP)
                             .Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price, total);
         }
 
         [Test]
         public void AddSale_HavingTwoSalesOnSoupAtOnce_InvalidInputThrown()
         {
             //Arrange
-            _sut.AddSale(new SaleDTO() { Name = "Soup", AmountNeeded = 2, Price = 1.89 }); //Buy 1 get 1 free
+            _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 2, Price = 1.89 }); //Buy 1 get 1 free
             
             //Act
 
             //Assert
-            Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = "Soup", AmountNeeded = 3, Price = 0.95 }), "Only one sale can be given at one given time");//Buy 2 get 1 half off
+            Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 3, Price = 0.95 }), "Only one sale can be given at one given time");//Buy 2 get 1 half off
         }
 
 
@@ -171,19 +174,19 @@ namespace UnitTests
         public void Add_Buy9SoupWithBuy3SoupFor5Limit6_6ItemsShouldBeOnSaleAndOther3AtNormalPrice()
         {
             //Arrange
-            _sut.AddSale(new SaleDTO() { Name = "Soup", AmountNeeded = 3, Price = .67, Limit = 6 }); //Buy 3 soup at $5
-            var expectedResult = 10.0 + _storeItems.First(x => x.Name == "Soup").Price * 3;
+            _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 3, Price = .67, Limit = 6 }); //Buy 3 soup at $5
+            var expectedResult = 10.0 + _storeItems.First(x => x.Name == SOUP).Price * 3;
 
             //Act
-            var total = _sut.Add("Soup")
-                            .Add("Soup")
-                            .Add("Soup")
-                            .Add("Soup")
-                            .Add("Soup")
-                            .Add("Soup")
-                            .Add("Soup")
-                            .Add("Soup")
-                            .Add("Soup")
+            var total = _sut.Add(SOUP)
+                            .Add(SOUP)
+                            .Add(SOUP)
+                            .Add(SOUP)
+                            .Add(SOUP)
+                            .Add(SOUP)
+                            .Add(SOUP)
+                            .Add(SOUP)
+                            .Add(SOUP)
                             .Total;
 
             //Assert
@@ -196,13 +199,13 @@ namespace UnitTests
             //Arrange
 
             //Act
-            var total = _sut.Add("Soup")
-                            .Add("Soup")
-                            .Remove("Soup")
+            var total = _sut.Add(SOUP)
+                            .Add(SOUP)
+                            .Remove(SOUP)
                             .Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price, total);
         }
 
 
@@ -212,11 +215,11 @@ namespace UnitTests
             //Arrange
 
             //Act
-            var total = _sut.Add("Bananas", 2.5)
+            var total = _sut.Add(BANANAS, 2.5)
                             .Total;
 
             //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == "Bananas").Price * 2.5, total);
+            Assert.AreEqual(_storeItems.First(x => x.Name == BANANAS).Price * 2.5, total);
         }
     }
 }
