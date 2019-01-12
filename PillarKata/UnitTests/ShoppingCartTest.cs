@@ -5,14 +5,21 @@ namespace UnitTests
 {
     public class ShoppingCartTest
     {
+        private ShoppingCart _sut;
+
+        [SetUp]
+        public void Init()
+        {
+            _sut = new ShoppingCart();
+        }
+
         [Test]
         public void AddItem_AddingSoupWithNoSales_NormalSoupPrice()
         {
             //Arrange
-            var cart = new ShoppingCart();
 
             //Act
-            var total = cart.Add("Soup").Total;
+            var total = _sut.Add("Soup").Total;
 
             //Assert
             Assert.AreEqual(total, 1.89);
@@ -22,10 +29,9 @@ namespace UnitTests
         public void AddItem_AddingGroundBeefWithNoSalesAt1lb_NormalBeefPrice()
         {
             //Arrange
-            var cart = new ShoppingCart();
 
             //Act
-            var total = cart.Add("Ground Beef", 1).Total;
+            var total = _sut.Add("Ground Beef", 1).Total;
 
             //Assert
             Assert.AreEqual(total, 5.99);
@@ -35,10 +41,9 @@ namespace UnitTests
         public void AddItem_AddingBananasWithNoSalesAt1lb_Normal1lbBananaPrice()
         {
             //Arrange
-            var cart = new ShoppingCart();
 
             //Act
-            var total = cart.Add("Bananas", 1).Total;
+            var total = _sut.Add("Bananas", 1).Total;
 
             //Assert
             Assert.AreEqual(total, 2.38);
@@ -48,10 +53,9 @@ namespace UnitTests
         public void AddItem_AddingBananasWithNoSalesAt2lb_Normal2lbBananaPrice()
         {
             //Arrange
-            var cart = new ShoppingCart();
 
             //Act
-            var total = cart.Add("Bananas", 2).Total;
+            var total = _sut.Add("Bananas", 2).Total;
 
             //Assert
             Assert.AreEqual(total, 2.38 * 2);
@@ -61,10 +65,9 @@ namespace UnitTests
         public void AddItem_Adding2SoupWithNoSales_NormalPriceFor2Soup()
         {
             //Arrange
-            var cart = new ShoppingCart();
 
             //Act
-            var total = cart.Add("Soup")
+            var total = _sut.Add("Soup")
                             .Add("Soup")
                             .Total;
 
@@ -76,10 +79,9 @@ namespace UnitTests
         public void AddItem_AddingSoupAnd2lbBananasWithNoSales_NormalPriceForSoupAndBanana()
         {
             //Arrange
-            var cart = new ShoppingCart();
 
             //Act
-            var total = cart.Add("Soup")
+            var total = _sut.Add("Soup")
                             .Add("Bananas", 1)
                             .Total;
 
