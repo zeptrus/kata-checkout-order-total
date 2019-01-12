@@ -113,5 +113,19 @@ namespace UnitTests
             //Assert
             Assert.Throws<InvalidInputException>(() => _sut.Add("Soup", 2), "Item given must only be given 1 at a time.");
         }
+               
+        [Test]
+        public void AddItem_AddingSoupOnSale_SoupSoldAtReducedPrice()
+        {
+            //Arrange
+            _sut.AddSale(new SaleDTO() { Name = "Soup", SalePrice = .20 });
+
+            //Act
+            var total = _sut.Add("Soup")
+                            .Total;
+
+            //Assert
+            Assert.AreEqual(total, _storeItems.First(x => x.Name == "Soup").Price - .2);
+        }
     }
 }
