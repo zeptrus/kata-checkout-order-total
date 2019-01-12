@@ -8,7 +8,7 @@ namespace Business.DTOs
         public string Name { get; set; }
         public double Price { get; set; }
         public ItemTypeEnum Type { get; set; }
-        public int Amount { get; internal set; }
+        public double Amount { get; internal set; }
 
         public object Clone()
         {

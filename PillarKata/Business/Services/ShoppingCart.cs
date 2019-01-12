@@ -31,7 +31,7 @@ namespace Business.Services
             return Add(itemName, 1);
         }
 
-        public ShoppingCart Add(string itemName, int amount)
+        public ShoppingCart Add(string itemName, double amount)
         {
             var item = _storeItems.First(x => x.Name == itemName).Clone() as StoreItemDTO;
 
