@@ -48,7 +48,12 @@ namespace Business.Services
 
         public ShoppingCart Remove(string itemName)
         {
-            var item = _itemsScanned.Where(x => x.Name == itemName).FirstOrDefault();
+            return Remove(itemName, 1);
+        }
+
+        public ShoppingCart Remove(string itemName, double amount)
+        {
+            var item = _itemsScanned.Where(x => x.Name == itemName && x.Amount == amount).FirstOrDefault();
             _itemsScanned.Remove(item);
             RecalculateTotal();
 
