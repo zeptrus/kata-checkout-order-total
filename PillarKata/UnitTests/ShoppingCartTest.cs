@@ -12,7 +12,7 @@ namespace UnitTests
             var cart = new ShoppingCart();
 
             //Act
-            var total = cart.Add("Soup");
+            var total = cart.Add("Soup").Total;
 
             //Assert
             Assert.AreEqual(total, 1.89);
@@ -42,6 +42,34 @@ namespace UnitTests
 
             //Assert
             Assert.AreEqual(total, 2.38);
+        }
+
+        [Test]
+        public void AddItem_AddingBananasWithNoSalesAt2lb_NormalPrice()
+        {
+            //Arrange
+            var cart = new ShoppingCart();
+
+            //Act
+            var total = cart.Add("Bananas", 2);
+
+            //Assert
+            Assert.AreEqual(total, 4.76);
+        }
+
+        [Test]
+        public void AddItem_Adding2SoupWithNoSales_NormalPrice()
+        {
+            //Arrange
+            var cart = new ShoppingCart();
+
+            //Act
+            var total = cart.Add("Soup")
+                            .Add("Soup")
+                            .Total;
+
+            //Assert
+            Assert.AreEqual(total, 1.89 * 2);
         }
     }
 }

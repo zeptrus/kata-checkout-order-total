@@ -4,23 +4,32 @@ namespace Business
 {
     public class ShoppingCart
     {
-        public ShoppingCart() { }
+        public double Total { get; private set; }
 
-        public double Add(string item)
+        public ShoppingCart()
         {
-            return 1.89;
+            Total = 0;
+        }
+
+        public ShoppingCart Add(string item)
+        {
+            Total += 1.89;
+            return this;
         }
 
         public double Add(string item, int weight)
         {
+            var price = 0.0;
             if(item == "Ground Beef")
             {
-                return 5.99;
+                price = 5.99;
             }
             else
             {
-                return 2.38;
+                price = 2.38;
             }
+
+            return price * weight;
         }
     }
 }
