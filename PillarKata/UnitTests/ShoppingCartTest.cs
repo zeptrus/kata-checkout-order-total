@@ -35,7 +35,7 @@ namespace UnitTests
             var total = _sut.Add("Soup").Total;
 
             //Assert
-            Assert.AreEqual(total, _storeItems.First(x => x.Name == "Soup").Price);
+            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price, total);
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace UnitTests
             var total = _sut.Add("Ground Beef", 1).Total;
 
             //Assert
-            Assert.AreEqual(total, _storeItems.First(x => x.Name == "Ground Beef").Price);
+            Assert.AreEqual(_storeItems.First(x => x.Name == "Ground Beef").Price, total);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace UnitTests
             var total = _sut.Add("Bananas", 1).Total;
 
             //Assert
-            Assert.AreEqual(total, _storeItems.First(x => x.Name == "Bananas").Price);
+            Assert.AreEqual(_storeItems.First(x => x.Name == "Bananas").Price, total);
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace UnitTests
             var total = _sut.Add("Bananas", 2).Total;
 
             //Assert
-            Assert.AreEqual(total, _storeItems.First(x => x.Name == "Bananas").Price * 2);
+            Assert.AreEqual(_storeItems.First(x => x.Name == "Bananas").Price * 2, total);
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace UnitTests
                             .Total;
 
             //Assert
-            Assert.AreEqual(total, _storeItems.First(x => x.Name == "Soup").Price * 2);
+            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price * 2, total);
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace UnitTests
                             .Total;
 
             //Assert
-            Assert.AreEqual(total, _storeItems.First(x => x.Name == "Soup").Price + _storeItems.First(x => x.Name == "Bananas").Price);
+            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price + _storeItems.First(x => x.Name == "Bananas").Price, total);
         }
 
 
@@ -125,7 +125,7 @@ namespace UnitTests
                             .Total;
 
             //Assert
-            Assert.AreEqual(total, _storeItems.First(x => x.Name == "Soup").Price - .2);
+            Assert.AreEqual(_storeItems.First(x => x.Name == "Soup").Price - .2, total);
         }
 
         [Test]
