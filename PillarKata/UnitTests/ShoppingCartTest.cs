@@ -30,5 +30,18 @@ namespace UnitTests
             //Assert
             Assert.AreEqual(total, 5.99);
         }
+
+        [Test]
+        public void AddItem_AddingBananasWithNoSalesAt1lb_NormalPrice()
+        {
+            //Arrange
+            var cart = new ShoppingCart();
+
+            //Act
+            var total = cart.Add("Bananas", 1);
+
+            //Assert
+            Assert.AreEqual(total, 2.38);
+        }
     }
 }

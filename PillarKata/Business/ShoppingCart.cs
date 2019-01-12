@@ -13,7 +13,14 @@ namespace Business
 
         public double Add(string item, int weight)
         {
-            return 5.99;
+            if(item == "Ground Beef")
+            {
+                return 5.99;
+            }
+            else
+            {
+                return 2.38;
+            }
         }
     }
 }
