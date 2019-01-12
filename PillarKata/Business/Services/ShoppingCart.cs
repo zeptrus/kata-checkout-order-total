@@ -12,12 +12,14 @@ namespace Business.Services
         public double Total { get; private set; }
         private IEnumerable<StoreItemDTO> _storeItems { get; set; }
         private List<SaleDTO> _sales { get; set; }
+        private List<StoreItemDTO> _itemsScanned { get; set; }
 
         public ShoppingCart(IEnumerable<StoreItemDTO> storeItems)
         {
             Total = 0;
             _storeItems = storeItems;
             _sales = new List<SaleDTO>();
+            _itemsScanned = new List<StoreItemDTO>();
         }
         
         public ShoppingCart Add(string itemName)
@@ -36,9 +38,9 @@ namespace Business.Services
             if (amount != 1 && item.Type == ItemTypeEnum.ByItem)
                 throw new InvalidInputException("Item given must only be given 1 at a time.");
 
-            var price = item.Price;
-            var salePrice = _sales.FirstOrDefault(x => x.Name == itemName)?.SalePrice ?? 0;
-            Total += (price - salePrice) * amount;
+            Total += FindPrice(item) * amount;
+
+            _itemsScanned.Add(item);
 
             return this;
         }
@@ -46,6 +48,27 @@ namespace Business.Services
         public void AddSale(SaleDTO saleItem)
         {
             _sales.Add(saleItem);
+        }
+
+        private double FindPrice(StoreItemDTO item)
+        {
+            var price = item.Price;
+            var itemsCurrentlyInCart = _itemsScanned.Where(x => x.Name == item.Name).Count();
+            var sales = _sales.FirstOrDefault(x => x.Name == item.Name);
+
+            if (sales == null)
+                return price;
+
+            if (sales.AmountNeedToSale == 0)
+                sales.AmountNeedToSale = 1;
+
+            var salePrice = 0.0;
+
+            if ((itemsCurrentlyInCart + 1) % sales.AmountNeedToSale == 0)
+                salePrice = sales.SalePrice;
+
+            //?.SalePrice ?? 0;
+            return (price - salePrice);
         }
     }
 }
