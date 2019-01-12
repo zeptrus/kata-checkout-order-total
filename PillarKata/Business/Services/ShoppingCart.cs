@@ -47,6 +47,10 @@ namespace Business.Services
 
         public void AddSale(SaleDTO saleItem)
         {
+            var foundItem = _sales.FirstOrDefault(x => x.Name == saleItem.Name);
+            if (foundItem != null)
+                throw new InvalidInputException("Only one sale can be given at one given time");
+
             _sales.Add(saleItem);
         }
 
