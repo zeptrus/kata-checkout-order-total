@@ -33,6 +33,9 @@ namespace Business.Services
 
         public ShoppingCart Add(string itemName, double amount)
         {
+            if (amount <= 0)
+                throw new InvalidInputException("Item selected has an invalid weight.");
+
             var item = _storeItems.FirstOrDefault(x => x.Name == itemName);
 
             if (item == null)

@@ -295,7 +295,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void Add_AddingAnInvalidItemWithAweight_InvalidInput()
+        public void Add_AddingAnInvalidItemWithAWeight_InvalidInput()
         {
             //Arrange
 
@@ -303,6 +303,17 @@ namespace UnitTests
 
             //Assert
             Assert.Throws<InvalidInputException>(() => _sut.Add("Invalid store item", 100), "Item selected doesn't exist in the store's price list.");
+        }
+
+        [Test]
+        public void Add_AddingValidItemWithNegativeWeight_InvalidInput()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<InvalidInputException>(() => _sut.Add(BEEF, -10), "Item selected has an invalid weight.");
         }
     }
 }
