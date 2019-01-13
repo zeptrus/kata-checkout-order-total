@@ -81,6 +81,13 @@ namespace Business.Services
             if (!storeItemCheck)
                 throw new InvalidInputException("Item selected is an invalid item to put on sale.");
 
+            if (!string.IsNullOrEmpty(saleItem.PreReq))
+            {
+                var preReqCheck = _storeItems.Any(x => x.Name == saleItem.PreReq);
+                if (!preReqCheck)
+                    throw new InvalidInputException("Prerequisite item is an invalid item.");
+            }
+
             if (saleItem.AmountNeeded == 0)
                 saleItem.AmountNeeded = 1;
 

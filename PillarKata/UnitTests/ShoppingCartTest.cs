@@ -327,5 +327,16 @@ namespace UnitTests
             //Assert
             Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = INVALIDITEM }), "Item selected is an invalid item to put on sale.");
         }
+
+        [Test]
+        public void AddSale_AddingValidItemToSaleWithInvalidPreReqItem_InvalidInput()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = BEEF, PreReq = INVALIDITEM }), "Prerequisite item is an invalid item.");
+        }
     }
 }
