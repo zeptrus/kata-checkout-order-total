@@ -33,7 +33,7 @@ namespace PillarKata
                     continue;
                 }
 
-                Console.WriteLine($"What Item do you want to {cmd.ToLower()}? (Soup, Ground Beef, Bananas)");
+                Console.WriteLine(string.Format("What Item do you want to {0}? (Soup, Ground Beef, Bananas)", cmd.ToLower()));
                 var item = Console.ReadLine();
                 try
                 {
@@ -47,7 +47,7 @@ namespace PillarKata
                     else
                     {
                         var weight = 0.0;
-                        Console.WriteLine($"What is the weight of {item}?");
+                        Console.WriteLine(string.Format("What is the weight of {0}?", item));
                         var val = Console.ReadLine();
                         if (!double.TryParse(val, out weight))
                         {
@@ -69,8 +69,8 @@ namespace PillarKata
                     continue;
                 }
 
-                Console.WriteLine($"Item {cmd}ed");
-                Console.WriteLine($"Total Price: {_cart.Total}");
+                Console.WriteLine(string.Format("Item {0}ed", cmd));
+                Console.WriteLine(string.Format("Total Price: {0}", _cart.Total));
             }
         }
     }
