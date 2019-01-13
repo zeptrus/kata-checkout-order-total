@@ -25,10 +25,7 @@ namespace Business.Services
         {
             var itemType = _storeItems.FirstOrDefault(x => x.Name == itemName)?.Type;
 
-            if (itemType == null)
-                throw new InvalidInputException("Item selected doesn't exist in the store's price list.");
-
-            if (itemType == ItemTypeEnum.ByWeight)
+            if (itemType != null && itemType == ItemTypeEnum.ByWeight)
                 throw new InvalidInputException("Item given must have a weight provided.");
 
             return Add(itemName, 1);
@@ -36,15 +33,19 @@ namespace Business.Services
 
         public ShoppingCart Add(string itemName, double amount)
         {
-            var item = _storeItems.First(x => x.Name == itemName).Clone() as StoreItemDTO;
+            var item = _storeItems.FirstOrDefault(x => x.Name == itemName);
 
-            if (amount != 1 && item.Type == ItemTypeEnum.ByItem)
+            if (item == null)
+                throw new InvalidInputException("Item selected doesn't exist in the store's price list.");
+
+            var newCartItem = item.Clone() as StoreItemDTO;
+            if (amount != 1 && newCartItem.Type == ItemTypeEnum.ByItem)
                 throw new InvalidInputException("Item given must only be given 1 at a time.");
 
-            item.Amount = amount;
-            Total += FindPrice(item);
+            newCartItem.Amount = amount;
+            Total += FindPrice(newCartItem);
 
-            _itemsScanned.Add(item);
+            _itemsScanned.Add(newCartItem);
 
             return this;
         }
