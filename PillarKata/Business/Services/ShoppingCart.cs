@@ -77,6 +77,10 @@ namespace Business.Services
             if (foundItem != null)
                 throw new InvalidInputException("Only one sale can be given at one given time");
 
+            var storeItemCheck = _storeItems.Where(x => x.Name == saleItem.Name).Any();
+            if (!storeItemCheck)
+                throw new InvalidInputException("Item selected is an invalid item to put on sale.");
+
             if (saleItem.AmountNeeded == 0)
                 saleItem.AmountNeeded = 1;
 

@@ -315,5 +315,16 @@ namespace UnitTests
             //Assert
             Assert.Throws<InvalidInputException>(() => _sut.Add(BEEF, -10), "Item selected has an invalid weight.");
         }
+
+        [Test]
+        public void AddSale_AddingInvalidItemToSale_InvalidInput()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = "Invalid store item" }), "Item selected is an invalid item to put on sale.");
+        }
     }
 }
