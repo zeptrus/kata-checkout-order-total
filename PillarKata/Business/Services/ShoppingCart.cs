@@ -54,6 +54,10 @@ namespace Business.Services
         public ShoppingCart Remove(string itemName, double amount)
         {
             var item = _itemsScanned.Where(x => x.Name == itemName && x.Amount == amount).FirstOrDefault();
+
+            if (item == null)
+                throw new InvalidInputException("Item selected to be removed isn't in the cart.");
+
             _itemsScanned.Remove(item);
             RecalculateTotal();
 

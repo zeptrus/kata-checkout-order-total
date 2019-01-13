@@ -269,5 +269,18 @@ namespace UnitTests
             //Assert
             Assert.AreEqual(expectedResult, total);
         }
+
+
+        [Test]
+        public void Remove_RemovingBeefThatWasntAdded_InvalidInput()
+        {
+            //Arrange
+
+            //Act
+            
+            //Assert
+            Assert.Throws<InvalidInputException>(() => _sut.Add(BEEF, 10).Remove(BEEF, 7), "Item selected to be removed isn't in the cart.");//Buy 2 get 1 half off
+
+        }
     }
 }
