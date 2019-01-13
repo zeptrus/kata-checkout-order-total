@@ -60,8 +60,7 @@ namespace Business.Services
 
         public ShoppingCart Remove(string itemName, double amount)
         {
-            var item = _itemsScanned.Where(x => x.Name == itemName && x.Amount == amount).FirstOrDefault();
-
+            var item = _itemsScanned.FirstOrDefault(x => x.Name == itemName && x.Amount == amount);
             if (item == null)
                 throw new InvalidInputException("Item selected to be removed isn't in the cart.");
 
@@ -77,7 +76,7 @@ namespace Business.Services
             if (foundItem != null)
                 throw new InvalidInputException("Only one sale can be given at one given time");
 
-            var storeItemCheck = _storeItems.Where(x => x.Name == saleItem.Name).Any();
+            var storeItemCheck = _storeItems.Any(x => x.Name == saleItem.Name);
             if (!storeItemCheck)
                 throw new InvalidInputException("Item selected is an invalid item to put on sale.");
 
@@ -109,7 +108,7 @@ namespace Business.Services
         private double FindPrice(StoreItemDTO item)
         {
             var price = item.Price;
-            var itemsCurrentlyInCart = _itemsScanned.Where(x => x.Name == item.Name).Count() + 1;
+            var itemsCurrentlyInCart = _itemsScanned.Count(x => x.Name == item.Name) + 1;
             var sale = _sales.FirstOrDefault(x => x.Name == item.Name);
 
             if (sale == null)
