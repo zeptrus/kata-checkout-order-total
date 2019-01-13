@@ -15,6 +15,7 @@ namespace UnitTests
         private const string SOUP = "Soup";//incase soup gets renamed to "Noodle soup or something"
         private const string BANANAS = "Bananas";
         private const string BEEF = "Ground Beef";
+        private const string INVALIDITEM = "Invalid Item";
 
         [SetUp]
         public void Init()
@@ -291,7 +292,7 @@ namespace UnitTests
             //Act
 
             //Assert
-            Assert.Throws<InvalidInputException>(() => _sut.Add("Invalid store item"), "Item selected doesn't exist in the store's price list.");
+            Assert.Throws<InvalidInputException>(() => _sut.Add(INVALIDITEM), "Item selected doesn't exist in the store's price list.");
         }
 
         [Test]
@@ -302,7 +303,7 @@ namespace UnitTests
             //Act
 
             //Assert
-            Assert.Throws<InvalidInputException>(() => _sut.Add("Invalid store item", 100), "Item selected doesn't exist in the store's price list.");
+            Assert.Throws<InvalidInputException>(() => _sut.Add(INVALIDITEM, 100), "Item selected doesn't exist in the store's price list.");
         }
 
         [Test]
@@ -324,7 +325,7 @@ namespace UnitTests
             //Act
 
             //Assert
-            Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = "Invalid store item" }), "Item selected is an invalid item to put on sale.");
+            Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = INVALIDITEM }), "Item selected is an invalid item to put on sale.");
         }
     }
 }
