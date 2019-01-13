@@ -30,6 +30,8 @@ namespace UnitTests
             _sut = new ShoppingCart(_storeItems);
         }
 
+        #region Add Tests
+
         [Test]
         public void Add_AddingSoupWithNoSales_NormalSoupPrice()
         {
@@ -160,19 +162,6 @@ namespace UnitTests
         }
 
         [Test]
-        public void AddSale_HavingTwoSalesOnSoupAtOnce_InvalidInputThrown()
-        {
-            //Arrange
-            _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 2, Price = 1.89 }); //Buy 1 get 1 free
-            
-            //Act
-
-            //Assert
-            Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 3, Price = 0.95 }), "Only one sale can be given at one given time");//Buy 2 get 1 half off
-        }
-
-
-        [Test]
         public void Add_Buy9SoupWithBuy3SoupFor5Limit6_6ItemsShouldBeOnSaleAndOther3AtNormalPrice()
         {
             //Arrange
@@ -196,22 +185,6 @@ namespace UnitTests
         }
 
         [Test]
-        public void Remove_RemoveSoupFrom2Soup_PriceOf1Soup()
-        {
-            //Arrange
-
-            //Act
-            var total = _sut.Add(SOUP)
-                            .Add(SOUP)
-                            .Remove(SOUP)
-                            .Total;
-
-            //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price, total);
-        }
-
-
-        [Test]
         public void Add_Adding2AndHalfBannanas_PriceOf2AndHalfBananas()
         {
             //Arrange
@@ -222,37 +195,6 @@ namespace UnitTests
 
             //Assert
             Assert.AreEqual(_storeItems.First(x => x.Name == BANANAS).Price * 2.5, total);
-        }
-
-        [Test]
-        public void Remove_RemoveBananas_PriceWithoutBananas()
-        {
-            //Arrange
-
-            //Act
-            var total = _sut.Add(BANANAS, 2.5)
-                            .Add(BANANAS, 2)
-                            .Remove(BANANAS, 2)
-                            .Total;
-
-            //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == BANANAS).Price * 2.5, total);
-        }
-
-        [Test]
-        public void Remove_Buy1SoupGet1SoupFreeButOnlyBuy1_PriceOfOneSoup()
-        {
-            //Arrange
-            _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 3, Price = .95 }); //Buy 2 get 1 half off
-
-            //Act
-            var total = _sut.Add(SOUP)
-                            .Add(SOUP)
-                            .Remove(SOUP)
-                            .Total;
-
-            //Assert
-            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price, total);
         }
 
         [Test]
@@ -269,19 +211,6 @@ namespace UnitTests
 
             //Assert
             Assert.AreEqual(expectedResult, total);
-        }
-
-
-        [Test]
-        public void Remove_RemovingBeefThatWasntAdded_InvalidInput()
-        {
-            //Arrange
-
-            //Act
-            
-            //Assert
-            Assert.Throws<InvalidInputException>(() => _sut.Add(BEEF, 10).Remove(BEEF, 7), "Item selected to be removed isn't in the cart.");//Buy 2 get 1 half off
-
         }
 
         [Test]
@@ -317,6 +246,22 @@ namespace UnitTests
             Assert.Throws<InvalidInputException>(() => _sut.Add(BEEF, -10), "Item selected has an invalid weight.");
         }
 
+        #endregion
+
+        #region AddSale Tests
+
+        [Test]
+        public void AddSale_HavingTwoSalesOnSoupAtOnce_InvalidInputThrown()
+        {
+            //Arrange
+            _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 2, Price = 1.89 }); //Buy 1 get 1 free
+
+            //Act
+
+            //Assert
+            Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 3, Price = 0.95 }), "Only one sale can be given at one given time");//Buy 2 get 1 half off
+        }
+
         [Test]
         public void AddSale_AddingInvalidItemToSale_InvalidInput()
         {
@@ -350,5 +295,70 @@ namespace UnitTests
             //Assert
             Assert.Throws<InvalidInputException>(() => _sut.AddSale(new SaleDTO() { Name = BEEF, AmountNeeded = 10, Limit = 5 }), "Amount needed must be less then max items on sale.");
         }
+
+        #endregion
+
+        #region Remove Tests
+
+        [Test]
+        public void Remove_RemoveSoupFrom2Soup_PriceOf1Soup()
+        {
+            //Arrange
+
+            //Act
+            var total = _sut.Add(SOUP)
+                            .Add(SOUP)
+                            .Remove(SOUP)
+                            .Total;
+
+            //Assert
+            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price, total);
+        }
+
+
+        [Test]
+        public void Remove_RemoveBananas_PriceWithoutBananas()
+        {
+            //Arrange
+
+            //Act
+            var total = _sut.Add(BANANAS, 2.5)
+                            .Add(BANANAS, 2)
+                            .Remove(BANANAS, 2)
+                            .Total;
+
+            //Assert
+            Assert.AreEqual(_storeItems.First(x => x.Name == BANANAS).Price * 2.5, total);
+        }
+
+        [Test]
+        public void Remove_Buy1SoupGet1SoupFreeButOnlyBuy1_PriceOfOneSoup()
+        {
+            //Arrange
+            _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 3, Price = .95 }); //Buy 2 get 1 half off
+
+            //Act
+            var total = _sut.Add(SOUP)
+                            .Add(SOUP)
+                            .Remove(SOUP)
+                            .Total;
+
+            //Assert
+            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price, total);
+        }
+
+        [Test]
+        public void Remove_RemovingBeefThatWasntAdded_InvalidInput()
+        {
+            //Arrange
+
+            //Act
+            
+            //Assert
+            Assert.Throws<InvalidInputException>(() => _sut.Add(BEEF, 10).Remove(BEEF, 7), "Item selected to be removed isn't in the cart.");//Buy 2 get 1 half off
+
+        }
+
+        #endregion
     }
 }
