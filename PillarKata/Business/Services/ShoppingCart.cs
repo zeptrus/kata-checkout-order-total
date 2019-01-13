@@ -23,7 +23,11 @@ namespace Business.Services
         
         public ShoppingCart Add(string itemName)
         {
-            var itemType = _storeItems.First(x => x.Name == itemName).Type;
+            var itemType = _storeItems.FirstOrDefault(x => x.Name == itemName)?.Type;
+
+            if (itemType == null)
+                throw new InvalidInputException("Item selected doesn't exist in the store's price list.");
+
             if (itemType == ItemTypeEnum.ByWeight)
                 throw new InvalidInputException("Item given must have a weight provided.");
 

@@ -282,5 +282,16 @@ namespace UnitTests
             Assert.Throws<InvalidInputException>(() => _sut.Add(BEEF, 10).Remove(BEEF, 7), "Item selected to be removed isn't in the cart.");//Buy 2 get 1 half off
 
         }
+
+        [Test]
+        public void Add_AddingAnInvalidItem_InvalidInput()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+            Assert.Throws<InvalidInputException>(() => _sut.Add("Invalid store item"), "Item selected doesn't exist in the store's price list.");
+        }
     }
 }
