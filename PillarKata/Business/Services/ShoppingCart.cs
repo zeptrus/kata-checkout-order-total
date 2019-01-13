@@ -87,6 +87,11 @@ namespace Business.Services
                     throw new InvalidInputException("Prerequisite item is an invalid item.");
             }
 
+            if(saleItem.AmountNeeded != 0 && saleItem.Limit != 0 && saleItem.AmountNeeded > saleItem.Limit)
+            {
+                throw new InvalidInputException("Amount needed must be less then max items on sale.");
+            }
+
             if (saleItem.AmountNeeded == 0)
                 saleItem.AmountNeeded = 1;
 
