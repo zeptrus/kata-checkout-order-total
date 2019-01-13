@@ -88,17 +88,29 @@ namespace Business.Services
         {
             var price = item.Price;
             var itemsCurrentlyInCart = _itemsScanned.Where(x => x.Name == item.Name).Count() + 1;
-            var sales = _sales.FirstOrDefault(x => x.Name == item.Name);
+            var sale = _sales.FirstOrDefault(x => x.Name == item.Name);
 
-            if (sales == null)
+            if (sale == null)
                 return price * item.Amount;
 
             var salePrice = 0.0;
 
-            if (itemsCurrentlyInCart % sales.AmountNeeded == 0 && (sales.Limit == 0 || sales.Limit <= itemsCurrentlyInCart))
-                salePrice = sales.Price;
+            if (itemsCurrentlyInCart % sale.AmountNeeded == 0 && (sale.Limit == 0 || sale.Limit <= itemsCurrentlyInCart))
+                salePrice = sale.Price;
 
-            return (price - salePrice) * item.Amount;
+            if (sale.PriceType == PriceTypeEnum.Percent)
+                salePrice = price * salePrice;
+
+            var expectedPrice = (price - salePrice) * item.Amount;
+
+            if (sale.PreReq != null)
+            {
+                var preReqPrice = _itemsScanned.Where(x => x.Name == sale.PreReq).Sum(x => x.Price * x.Amount);
+                if (preReqPrice < expectedPrice)
+                    return price * item.Amount;
+            }
+
+            return expectedPrice;
         }
     }
 }

@@ -238,7 +238,6 @@ namespace UnitTests
             Assert.AreEqual(_storeItems.First(x => x.Name == BANANAS).Price * 2.5, total);
         }
 
-
         [Test]
         public void Remove_Buy1SoupGet1SoupFreeButOnlyBuy1_PriceOfOneSoup()
         {
@@ -253,6 +252,22 @@ namespace UnitTests
 
             //Assert
             Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price, total);
+        }
+
+        [Test]
+        public void Add_BuyBananasGetBeefHalfOff_BannanasPlusBeefAtHalfPrice()
+        {
+            //Arrange
+            _sut.AddSale(new SaleDTO() { Name = BEEF, Price = .5, PriceType = PriceTypeEnum.Percent, PreReq = BANANAS }); //Buy bananas and get beef at equal or less value for half off
+            var expectedResult = _storeItems.First(x => x.Name == BANANAS).Price * 10 + _storeItems.First(x => x.Name == BEEF).Price * .25;
+
+            //Act
+            var total = _sut.Add(BANANAS, 10)
+                            .Add(BEEF, .5)
+                            .Total;
+
+            //Assert
+            Assert.AreEqual(expectedResult, total);
         }
     }
 }
