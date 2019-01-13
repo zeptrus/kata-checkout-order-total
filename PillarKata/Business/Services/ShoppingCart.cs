@@ -75,9 +75,12 @@ namespace Business.Services
         private void RecalculateTotal()
         {
             Total = 0;
-            foreach (var item in _itemsScanned)
+            var oldItemsScanned = _itemsScanned.ToList();
+            _itemsScanned.Clear();
+            foreach (var item in oldItemsScanned)
             {
                 Total += FindPrice(item);
+                _itemsScanned.Add(item);
             }
         }
 

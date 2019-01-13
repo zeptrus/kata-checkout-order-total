@@ -237,5 +237,22 @@ namespace UnitTests
             //Assert
             Assert.AreEqual(_storeItems.First(x => x.Name == BANANAS).Price * 2.5, total);
         }
+
+
+        [Test]
+        public void Remove_Buy1SoupGet1SoupFreeButOnlyBuy1_PriceOfOneSoup()
+        {
+            //Arrange
+            _sut.AddSale(new SaleDTO() { Name = SOUP, AmountNeeded = 3, Price = .95 }); //Buy 2 get 1 half off
+
+            //Act
+            var total = _sut.Add(SOUP)
+                            .Add(SOUP)
+                            .Remove(SOUP)
+                            .Total;
+
+            //Assert
+            Assert.AreEqual(_storeItems.First(x => x.Name == SOUP).Price, total);
+        }
     }
 }
